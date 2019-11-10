@@ -12,7 +12,6 @@ namespace Lycan
 		template< class T >
 		class LYCAN_API DynamicArray
 		{
-
 		public:
 
 			DynamicArray( void )
@@ -460,7 +459,6 @@ namespace Lycan
 			size_t  m_numElements;
 			size_t  m_capacity;
 			char*   m_pBuffer;
-
 		};
 	}
 }

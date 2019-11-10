@@ -3,7 +3,7 @@
 #include "Core.h"
 #include "Util.h"
 
-namespace Norselong
+namespace Lycan
 {
 	namespace Core
 	{
