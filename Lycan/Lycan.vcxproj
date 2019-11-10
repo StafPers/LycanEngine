@@ -19,6 +19,7 @@
     <ClInclude Include="src\Core\EntryPoint.h" />
     <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Core\Memory.h" />
+    <ClInclude Include="src\Core\Queue.h" />
     <ClInclude Include="src\Core\String.h" />
     <ClInclude Include="src\Core\UniquePtr.h" />
     <ClInclude Include="src\Core\Util.h" />
