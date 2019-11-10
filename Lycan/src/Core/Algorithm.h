@@ -13,8 +13,8 @@ namespace Lycan
 		LYCAN_API void Swap( T& _rFirst, T& _rSecond )
 		{
 			const T temp = Move( _rFirst );
-			_rFirst    = Move( _rSecond );
-			_rSecond   = Move( temp );
+			_rFirst      = Move( _rSecond );
+			_rSecond     = Move( temp );
 		}
 
 		LYCAN_API size_t NextPowerOfTwo( size_t _value )

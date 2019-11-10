@@ -8,7 +8,7 @@ namespace Lycan
 {
 	namespace Core
 	{
-		LYCAN_API enum eConsoleColors
+		enum LYCAN_API eConsoleColors
 		{
 			White        = FOREGROUND_BLUE  | FOREGROUND_RED | FOREGROUND_GREEN,
 			LightRed     = FOREGROUND_RED   | FOREGROUND_INTENSITY,
