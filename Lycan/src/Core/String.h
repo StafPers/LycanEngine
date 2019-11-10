@@ -12,6 +12,7 @@ namespace Lycan
 		public:
 
 			using IndexList = DynamicArray< size_t >;
+			using StringList = DynamicArray< String >;
 
 			String                 ( void );
 			String                 ( const char* _pStr );
@@ -31,7 +32,6 @@ namespace Lycan
 			bool        operator== ( const String& _rhs ) const;
 			bool        operator!= ( const String& _rhs ) const;
 
-
 			// TODO: Might need overloads for const char* if they don't implicitly convert
 			String&     Append     ( const String& _rOther );
 			String&     Insert     ( size_t _index, char _c );
@@ -44,7 +44,7 @@ namespace Lycan
 			String&     Replace    ( char _toBeReplaced, char _replacement );
 			void        Reserve    ( size_t _capacity );
 
-			const char* CString    ( void )               const;
+			const char* CString    ( void );
 			size_t      FindFirst  ( char _c )            const;
 			size_t      FindFirst  ( const String& _str ) const;
 			size_t      FindLast   ( char _c )            const;
@@ -59,9 +59,9 @@ namespace Lycan
 			size_t      Count      ( char _c )            const;
 			size_t      Count      ( const String& _str ) const;
 
-			// split
-
-			// substring
+			StringList  Split      ( char _c = ' ' )      const;
+			String      ToUpper    ( void )               const;
+			String      ToLower    ( void )               const;
 
 		private:
 

@@ -152,17 +152,48 @@ namespace Lycan
 
 		String& String::Insert( size_t _index, char _c )
 		{
-			// TODO: insert return statement here
+			if( _index >= m_length )
+			{
+				// TODO: throw exception
+			}
+
+			Reserve( m_length + 1 );
+
+			for( size_t i = m_length; i > _index; --i )
+				m_pBuffer[ i ] = m_pBuffer[ i - 1 ];
+
+			m_pBuffer[ _index ] = _c;
+
+			return *this;
 		}
 
 		String& String::Insert( size_t _index, const String& _str )
 		{
-			// TODO: insert return statement here
+			if( _index >= m_length )
+			{
+				// TODO: throw exception
+			}
+
+			Reserve( m_length + _str.m_length );
+
+			for( size_t i = m_length; i > _index; --i )
+				m_pBuffer[ i + _str.m_length - 1 ] = m_pBuffer[ i - 1 ];
+
+			for( size_t i = _index; i < _index + _str.m_length - 1; ++i )
+				m_pBuffer[ i ] = _str[ i - _index ];
+
+			return *this;
 		}
 
 		String& String::Assign( const String& _str )
 		{
-			// TODO: insert return statement here
+			Reserve( _str.m_length );
+			m_length = _str.m_length;
+
+			for( size_t i = 0; i < m_length; ++i )
+				m_pBuffer[ i ] = _str[ i ];
+
+			return *this;
 		}
 
 		void String::PushBack( char _c )
@@ -198,29 +229,37 @@ namespace Lycan
 			if( indices.IsEmpty() )
 				return *this;
 
-			size_t sizeDiff = 0;
 			if( _replacement.m_length > _toBeReplaced.m_length )
 			{
-				sizeDiff = _replacement.m_length - _toBeReplaced.m_length;
+				const size_t sizeDiff = _replacement.m_length - _toBeReplaced.m_length;
 				Reserve( m_length + ( sizeDiff * indices.Size() ) );
 
 				for( size_t i = 0; i < indices.Size(); ++i )
 				{
-					// TODO: shift characters to the right with size diff starting at indices[i]
+					for( size_t j = m_length; j > indices[ i ]; --j )
+						m_pBuffer[ j + sizeDiff - 1 ] = m_pBuffer[ j - 1 ];
+
 					for( size_t j = 0; j < _replacement.m_length; ++j )
 						m_pBuffer[ indices[ i ] + j ] = _replacement[ j ];
+
+					m_length += sizeDiff;
 				}
 
 				return *this;
 			}
 			else if( _toBeReplaced.m_length > _replacement.m_length )
 			{
+				const size_t sizeDiff = _toBeReplaced.m_length - _replacement.m_length;
+
 				for( size_t i = 0; i < indices.Size(); ++i )
 				{
+					for( size_t j = indices[ i ] + _replacement.m_length; j < m_length - 1; ++j )
+						m_pBuffer[ j ] = m_pBuffer[ j + 1 ];
+
 					for( size_t j = 0; j < _replacement.m_length; ++j )
 						m_pBuffer[ indices[ i ] + j ] = _replacement[ j ];
 
-					// TODO: need to shift characters to the lef in order to overwrite leftover chars
+					m_length -= sizeDiff;
 				}
 
 				return *this;
@@ -237,6 +276,8 @@ namespace Lycan
 			for( size_t i = 0; i < m_length; ++i )
 				if( m_pBuffer[ i ] == _toBeReplaced )
 					m_pBuffer[ i ] = _replacement;
+
+			return *this;
 		}
 
 		void String::Reserve( size_t _capacity )
@@ -252,6 +293,182 @@ namespace Lycan
 
 			delete m_pBuffer;
 			m_pBuffer = pTemp;
+		}
+
+		const char* String::CString( void )
+		{
+			Reserve( m_length + 1 );
+			m_pBuffer[ m_length ] = 0;
+
+			return m_pBuffer;
+		}
+
+		size_t String::FindFirst( char _c ) const
+		{
+			for( size_t i = 0; i < m_length; ++i )
+				if( m_pBuffer[ i ] == _c )
+					return i;
+
+			return m_length;
+		}
+
+		size_t String::FindFirst( const String& _str ) const
+		{
+			for( size_t i = 0; i < m_length - _str.m_length; ++i )
+			{
+				bool bFound = true;
+				for( size_t j = i; j < i + _str.m_length; ++j )
+				{
+					if( m_pBuffer[ j ] != _str[ j - i ] )
+					{
+						bFound = false;
+						break;
+					}
+				}
+
+				if( bFound )
+					return i;
+			}
+
+			return m_length;
+		}
+
+		size_t String::FindLast( char _c ) const
+		{
+			for( size_t i = m_length; i > 0; --i )
+				if( m_pBuffer[ i - 1 ] == _c )
+					return i - 1;
+
+			return m_length;
+		}
+
+		size_t String::FindLast( const String & _str ) const
+		{
+			for( size_t i = m_length - _str.m_length; i > 0 && i > _str.m_length; i -= _str.m_length )
+			{
+				bool bFound = true;
+				for( size_t j = i - 1; j < i + _str.m_length - 1; ++j )
+				{
+					if( m_pBuffer[ j ] != _str[ j - i ] )
+					{
+						bFound = false;
+						break;
+					}
+				}
+
+				if( bFound )
+					return i;
+			}
+
+			return m_length;
+		}
+
+		String::IndexList String::FindAll( char _c ) const
+		{
+			IndexList indices;
+
+			for( size_t i = 0; i < m_length; ++i )
+				if( m_pBuffer[ i ] == _c )
+					indices.PushBack( i );
+
+			return indices;
+		}
+
+		String::IndexList String::FindAll( const String& _str ) const
+		{
+			IndexList indices;
+
+			// TODO: implement
+
+			return indices;
+		}
+
+		char* String::Data( void )
+		{
+			return m_pBuffer;
+		}
+
+		int String::ToInt( void ) const
+		{
+			int sign   = 1;
+			int offset = 0;
+
+			if( m_pBuffer[ 0 ] == '-' )
+			{
+				sign   = -1;
+				offset = 1;
+			}
+
+			for( size_t i = offset; i < m_length; ++i )
+			{
+				if( m_pBuffer[ i ] < '0' || m_pBuffer[ i ] > '9' )
+				{
+					// TODO throw format exception
+				}
+			}
+
+			size_t pos = 1;
+			int sum    = 0;
+
+			for( size_t i = m_length; i > offset; --i, pos *= 10 )
+				sum += m_pBuffer[ i - 1 ] - '0' * pos;
+
+			return sum * sign;
+		}
+
+		float String::ToFloat( void ) const
+		{
+			// TODO: implement
+
+			return 0.0f;
+		}
+
+		size_t String::Count( char _c ) const
+		{
+			return FindAll( _c ).Size();
+		}
+
+		size_t String::Count( const String& _str ) const
+		{
+			return FindAll( _str ).Size();
+		}
+
+		String::StringList String::Split( char _c ) const
+		{
+			StringList list;
+			list.PushBack( String() );
+
+			for( size_t i = 0; i < m_length; ++i )
+			{
+				if( m_pBuffer[ i ] != _c )
+					list.Back().PushBack( m_pBuffer[ i ] );
+				else
+					list.PushBack( String() );
+			}
+
+			return list;
+		}
+
+		String String::ToUpper( void ) const
+		{
+			String str = *this;
+
+			for( size_t i = 0; i < m_length; ++i )
+				if( str.m_pBuffer[ i ] >= 'a' && str.m_pBuffer[ i ] <= 'z' )
+					str.m_pBuffer[ i ] -= ( 'a' - 'A' );
+
+			return str;
+		}
+
+		String String::ToLower( void ) const
+		{
+			String str = *this;
+
+			for( size_t i = 0; i < m_length; ++i )
+				if( str.m_pBuffer[ i ] >= 'A' && str.m_pBuffer[i] <= 'Z' )
+					str.m_pBuffer[ i ] += ( 'a' - 'A' );
+
+			return str;
 		}
 	}
 }
