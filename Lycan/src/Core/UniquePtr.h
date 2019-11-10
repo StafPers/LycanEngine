@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Util.h"
 
 namespace Norselong
@@ -7,7 +8,7 @@ namespace Norselong
 	namespace Core
 	{
 		template< class T >
-		class UniquePtr
+		class LYCAN_API UniquePtr
 		{
 		public:
 

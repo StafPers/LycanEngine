@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Core.h"
+
 #include <Windows.h> // Prob do something about this
 
 namespace Lycan
 {
 	namespace Core
 	{
-		enum eConsoleColors
+		LYCAN_API enum eConsoleColors
 		{
 			White        = FOREGROUND_BLUE  | FOREGROUND_RED | FOREGROUND_GREEN,
 			LightRed     = FOREGROUND_RED   | FOREGROUND_INTENSITY,

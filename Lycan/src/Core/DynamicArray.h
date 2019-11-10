@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Algorithm.h"
+#include "Core.h"
 
 #include <new>
 
@@ -9,7 +10,7 @@ namespace Lycan
 	namespace Core
 	{
 		template< class T >
-		class DynamicArray
+		class LYCAN_API DynamicArray
 		{
 
 		public:
