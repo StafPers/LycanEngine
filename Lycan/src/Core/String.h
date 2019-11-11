@@ -26,7 +26,7 @@ namespace Lycan
 			{
 				m_length = snprintf( nullptr, 0, _str, _args... ) + 1;
 				Reserve( m_length );
-				snprintf( m_pBuffer, m_length, _str, _args... ):
+				snprintf( m_pBuffer, m_length, _str, _args... );
 			}
 
 			String                 ( const String& _rSource );
@@ -70,8 +70,12 @@ namespace Lycan
 			size_t      Count      ( const String& _str ) const;
 
 			StringList  Split      ( char _c = ' ' )      const;
-			String      ToUpper    ( void )               const;
-			String      ToLower    ( void )               const;
+			String      AsUpper    ( void )               const;
+			void        ToUpper    ( void );
+			String      AsLower    ( void )               const;
+			void        ToLower    ( void );
+			void        Reverse    ( void );
+			String      Reversed   ( void )               const;
 
 		private:
 

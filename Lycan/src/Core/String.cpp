@@ -414,8 +414,8 @@ namespace Lycan
 				}
 			}
 
-			size_t pos = 1;
-			int sum    = 0;
+			int pos = 1;
+			int sum = 0;
 
 			for( size_t i = m_length; i > offset; --i, pos *= 10 )
 				sum += m_pBuffer[ i - 1 ] - '0' * pos;
@@ -456,25 +456,47 @@ namespace Lycan
 			return list;
 		}
 
-		String String::ToUpper( void ) const
+		String String::AsUpper( void ) const
 		{
 			String str = *this;
-
-			for( size_t i = 0; i < m_length; ++i )
-				if( str.m_pBuffer[ i ] >= 'a' && str.m_pBuffer[ i ] <= 'z' )
-					str.m_pBuffer[ i ] -= ( 'a' - 'A' );
-
+			str.ToUpper();
 			return str;
 		}
 
-		String String::ToLower( void ) const
+		void String::ToUpper( void )
+		{
+			for( size_t i = 0; i < m_length; ++i )
+				if( m_pBuffer[ i ] >= 'a' && m_pBuffer[ i ] <= 'z' )
+					m_pBuffer[ i ] -= ( 'a' - 'A' );
+		}
+
+		String String::AsLower( void ) const
 		{
 			String str = *this;
+			str.ToLower();
+			return str;
+		}
 
+		void String::ToLower( void )
+		{
 			for( size_t i = 0; i < m_length; ++i )
-				if( str.m_pBuffer[ i ] >= 'A' && str.m_pBuffer[i] <= 'Z' )
-					str.m_pBuffer[ i ] += ( 'a' - 'A' );
+				if( m_pBuffer[ i ] >= 'A' && m_pBuffer[ i ] <= 'Z' )
+					m_pBuffer[ i ] += ( 'a' - 'A' );
+		}
 
+		void String::Reverse( void )
+		{
+			char* pStart = m_pBuffer;
+			char* pEnd   = m_pBuffer + m_length - 1;
+
+			while( pStart < pEnd )
+				Swap( *pStart++, *pEnd++ );
+		}
+
+		String String::Reversed( void ) const
+		{
+			String str = *this;
+			str.Reverse();
 			return str;
 		}
 	}
