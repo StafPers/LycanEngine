@@ -27,7 +27,7 @@ namespace Lycan
 		template< typename T >
 		LYCAN_API constexpr T&& Forward( typename RemoveReference< T >::type& Arg ) noexcept
 		{
-			return static_cast< T&& >( Arg )
+			return static_cast< T&& >( Arg );
 		}
 
 		template< typename T >

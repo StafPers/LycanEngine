@@ -17,8 +17,6 @@ namespace Lycan
 				, m_pBack  { nullptr }
 			{}
 
-			// todo variable number of args
-			
 			Queue( const Queue< T >& _rOther )
 			{
 				// TODO: Implement
@@ -40,6 +38,8 @@ namespace Lycan
 					return *this;
 
 				FreeMemory();
+
+				// TODO: Implement
 			}
 
 			Queue< T >& operator=( Queue< T >&& _rOther )
@@ -47,7 +47,7 @@ namespace Lycan
 				// TODO: Implement
 			}
 
-			void Add( T _obj )
+			void Add( const T& _obj )
 			{
 				if( Empty() )
 				{
