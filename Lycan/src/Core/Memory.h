@@ -15,5 +15,14 @@ namespace Lycan
 			while( pDest != pEnd )
 				*pDest++ = *pSrc++;
 		}
+
+		LYCAN_API void MemorySet( void* _pDest, char _val, size_t _size )
+		{
+			char* pDest = reinterpret_cast< char* >( _pDest );
+			const char* const pEnd = pDest + _size;
+
+			while( pDest != pEnd )
+				*pDest++ = _val;
+		}
 	}
 }

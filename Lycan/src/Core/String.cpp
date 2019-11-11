@@ -282,11 +282,13 @@ namespace Lycan
 
 		void String::Reserve( size_t _capacity )
 		{
-			if( _capacity <= m_capactiy )
+			if( ++_capacity <= m_capactiy )
 				return;
 
 			m_capactiy = NextPowerOfTwo( _capacity );
 			char* pTemp = new char[ m_capactiy ];
+
+			MemorySet( pTemp, 0, m_capactiy );
 
 			for( size_t i = 0; i < m_length; ++i )
 				pTemp[ i ] = m_pBuffer[ i ];
@@ -295,11 +297,8 @@ namespace Lycan
 			m_pBuffer = pTemp;
 		}
 
-		const char* String::CString( void )
+		const char* String::CString( void ) const
 		{
-			Reserve( m_length + 1 );
-			m_pBuffer[ m_length ] = 0;
-
 			return m_pBuffer;
 		}
 

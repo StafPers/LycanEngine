@@ -44,7 +44,7 @@ namespace Lycan
 			String&     Replace    ( char _toBeReplaced, char _replacement );
 			void        Reserve    ( size_t _capacity );
 
-			const char* CString    ( void );
+			const char* CString    ( void ) const;
 			size_t      FindFirst  ( char _c )            const;
 			size_t      FindFirst  ( const String& _str ) const;
 			size_t      FindLast   ( char _c )            const;
