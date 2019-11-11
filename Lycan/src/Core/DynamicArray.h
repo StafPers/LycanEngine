@@ -34,6 +34,15 @@ namespace Lycan
 					new( reinterpret_cast< T* >( m_pBuffer ) + i ) T( _value );
 			}
 
+			template< typename... Args >
+			DynamicArray( Args&&... args )
+				: m_numElements { 0 }
+				, m_capacity    { NextPowerOfTwo( 8 ) }
+				, m_pBuffer     { new char[ m_capacity * sizeof( T ) ] }
+			{
+				PushBack( args... );
+			}
+
 			DynamicArray( const DynamicArray& _rSource )
 				: m_numElements { _rSource.m_numElements }
 				, m_capacity    { _rSource.m_numElements }
@@ -82,7 +91,7 @@ namespace Lycan
 			{
 				if( &_rSource != this )
 				{
-					delte[] m_pBuffer;
+					delete[] m_pBuffer;
 
 					m_numElements = _rSource.m_numElements;
 					m_capacity = _rSource.m_capacity;
@@ -145,10 +154,16 @@ namespace Lycan
 				m_numElements = _size;
 			}
 
+			template< typename First, typename... Args >
+			void PushBack( const First& first, Args&&... args )
+			{
+				PushBack( first );
+				PushBack( args... );
+			}
+
 			void PushBack( const T& _rValue )
 			{
 				Reserve( m_numElements + 1 );
-
 				new( reinterpret_cast< T* >( m_pBuffer ) + m_numElements++ ) T( _rValue );
 			}
 
@@ -165,7 +180,11 @@ namespace Lycan
 
 			void PopBack( void )
 			{
-				// TODO: throw exception if trying to pop empty array
+				if( IsEmpty() )
+				{
+					// TODO: throw exception if trying to pop empty array
+				}
+
 				if( IsEmpty() )
 					return;
 
@@ -455,6 +474,8 @@ namespace Lycan
 			inline       bool   IsEmpty ( void ) const { return m_numElements == 0; }
 
 		private:
+
+			void    PushBack( void ) {} // To end recursion when pushing back multiple args
 
 			size_t  m_numElements;
 			size_t  m_capacity;
