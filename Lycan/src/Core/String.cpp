@@ -4,39 +4,47 @@
 #include "Memory.h"
 #include "Util.h"
 
+#include <string.h>
+
 namespace Lycan
 {
 	namespace Core
 	{
 		String::String( void )
 			: m_length   { 0 }
-			, m_capactiy { 8}
-			, m_pBuffer  { new char[ m_capactiy ] }
-		{}
+			, m_capactiy { 0 }
+			, m_pBuffer  { nullptr }
+		{
+			Reserve( 5 );
+		}
 
 		String::String( const char* _pStr )
-			: m_length   { sizeof( _pStr ) - 1 }
-			, m_capactiy { NextPowerOfTwo( m_length ) }
-			, m_pBuffer  { new char[ m_capactiy ] }
+			: m_length   { strlen( _pStr ) }
+			, m_capactiy { 0 }
+			, m_pBuffer  { nullptr }
 		{
+			Reserve( m_length );
+
 			for( size_t i = 0; i < m_length; ++i )
 				m_pBuffer[ i ] = _pStr[ i ];
 		}
 
 		String::String( char _c, size_t _count )
 			: m_length   { _count }
-			, m_capactiy { NextPowerOfTwo( _count ) }
-			, m_pBuffer  { new char[ m_capactiy ] }
+			, m_capactiy { 0 }
+			, m_pBuffer  { nullptr }
 		{
-			for( size_t i = 0; i < m_length; ++i )
-				m_pBuffer[ i ] = _c;
+			Reserve( m_length );
+			MemorySet( m_pBuffer, _c, _count );
 		}
 
 		String::String( size_t _capactiy )
 			: m_length   { 0 }
-			, m_capactiy { NextPowerOfTwo( _capactiy ) }
-			, m_pBuffer  { new char[ m_capactiy ] }
-		{}
+			, m_capactiy { _capactiy }
+			, m_pBuffer  { nullptr }
+		{
+			Reserve( m_capactiy );
+		}
 
 		String::String( const String& _rSource )
 		{

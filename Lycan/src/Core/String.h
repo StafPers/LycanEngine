@@ -3,6 +3,8 @@
 #include "Core.h"
 #include "DynamicArray.h"
 
+#include <stdio.h>
+
 namespace Lycan
 {
 	namespace Core
@@ -18,7 +20,15 @@ namespace Lycan
 			String                 ( const char* _pStr );
 			String                 ( char _c, size_t _count );
 			String                 ( size_t _capactiy );
-			// TODO: Variadic template constructor to format string upon construction 
+
+			template< typename... Args >
+			String                 ( const char* _str, Args... _args )
+			{
+				m_length = snprintf( nullptr, 0, _str, _args... ) + 1;
+				Reserve( m_length );
+				snprintf( m_pBuffer, m_length, _str, _args... ):
+			}
+
 			String                 ( const String& _rSource );
 			String                 ( String&& _rSource );
 			~String                ( void );
