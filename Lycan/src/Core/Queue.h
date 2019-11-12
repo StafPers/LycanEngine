@@ -8,7 +8,7 @@ namespace Lycan
 	namespace Core
 	{
 		template< typename T >
-		class LYCAN_API Queue
+		class Queue
 		{
 		public:
 
@@ -19,12 +19,7 @@ namespace Lycan
 
 			Queue( const Queue< T >& _rOther )
 			{
-				// TODO: Implement
-			}
-
-			Queue( Queue< T >&& _rOther )
-			{
-				// TODO: implement
+				Copy( _rOther );
 			}
 
 			~Queue( void )
@@ -38,13 +33,8 @@ namespace Lycan
 					return *this;
 
 				FreeMemory();
-
-				// TODO: Implement
-			}
-
-			Queue< T >& operator=( Queue< T >&& _rOther )
-			{
-				// TODO: Implement
+				Copy( _rOther );
+				return *this;
 			}
 
 			void Add( const T& _obj )
@@ -69,7 +59,7 @@ namespace Lycan
 				}
 
 				sNode* pNext = m_pFront->pNext;
-				T obj        = Move( m_pFront->obj );
+				T&& obj      = Move( m_pFront->obj );
 
 				delete m_pFront;
 				m_pFront = pNext;
@@ -150,6 +140,24 @@ namespace Lycan
 				}
 
 				m_pFront = m_pBack = nullptr;
+			}
+
+			void Copy( const Queue< T >& _rOther )
+			{
+				if( _rOther.Empty() )
+				{
+					m_pFront = nullptr;
+					m_pBack = nullptr;
+					return;
+				}
+
+				sNode* pCurrent = _rOther.m_pFirst;
+
+				while( pCurrent != nullptr )
+				{
+					Add( pCurrent->obj );
+					pCurrent = pCurrent->pNext;
+				}
 			}
 
 			sNode* m_pFront;
