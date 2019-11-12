@@ -8,7 +8,7 @@ namespace Lycan
 	namespace Core
 	{
 		template< class T >
-		class LYCAN_API UniquePtr
+		class UniquePtr
 		{
 		public:
 

@@ -1,17 +1,18 @@
 #pragma once
 
+#include "LycanWin.h" 
+
 #include "ConsoleColors.h"
 #include "Core.h"
 #include "String.h"
 
 #include <stdio.h>
-#include <Windows.h> 
 
 namespace Lycan
 {
 	namespace Core
 	{
-		LYCAN_API void LogError( const String& _error )
+		void LogError( const String& _error )
 		{
 			HANDLE hConsole = GetStdHandle( STD_OUTPUT_HANDLE );
 			WORD currentAttrib;
@@ -25,7 +26,7 @@ namespace Lycan
 			SetConsoleTextAttribute( hConsole, currentAttrib );
 		}
 		
-		LYCAN_API void LogWarning( const String& _warning )
+		void LogWarning( const String& _warning )
 		{
 			HANDLE hConsole = GetStdHandle( STD_OUTPUT_HANDLE );
 			WORD currentAttrib;
@@ -39,12 +40,12 @@ namespace Lycan
 			SetConsoleTextAttribute( hConsole, currentAttrib );
 		}
 		
-		LYCAN_API void  LogMessage( const String& _message )
+		void LogMessage( const String& _message )
 		{
 			printf( _message.CString() );
 		}
 
-		LYCAN_API void  LogMessage( const String& _message, eConsoleColors _color )
+		void LogMessage( const String& _message, eConsoleColors _color )
 		{
 			HANDLE hConsole = GetStdHandle( STD_OUTPUT_HANDLE );
 			WORD currentAttrib;

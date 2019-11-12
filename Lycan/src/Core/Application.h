@@ -4,16 +4,17 @@
 
 namespace Lycan
 {
-	class LYCAN_API Application
+	class Application
 	{
 	public:
 
-		Application          ( void );
-		virtual ~Application ( void );
+		Application             ( void ) {}
+		virtual ~Application    ( void ) {}
 
-		void Run             ( void );
+		virtual void Initialize ( void ) = 0;
+		virtual void Update     ( void ) = 0;
+		virtual void Render     ( void ) = 0;
 	};
 
-	Application* CreateApplication( void );
-
+	extern Application* CreateApplication( void );
 }

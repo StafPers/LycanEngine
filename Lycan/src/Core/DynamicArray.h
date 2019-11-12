@@ -10,7 +10,7 @@ namespace Lycan
 	namespace Core
 	{
 		template< class T >
-		class LYCAN_API DynamicArray
+		class DynamicArray
 		{
 		public:
 

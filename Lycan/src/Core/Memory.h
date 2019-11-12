@@ -6,7 +6,7 @@ namespace Lycan
 {
 	namespace Core
 	{
-		LYCAN_API void MemoryCopy( void* _pDest, void* _pSrc, size_t _size )
+		void MemoryCopy( void* _pDest, void* _pSrc, size_t _size )
 		{
 			char* pDest = reinterpret_cast< char* >( _pDest );
 			char* pSrc  = reinterpret_cast< char* >( _pSrc );
@@ -16,7 +16,7 @@ namespace Lycan
 				*pDest++ = *pSrc++;
 		}
 
-		LYCAN_API void MemorySet( void* _pDest, char _val, size_t _size )
+		void MemorySet( void* _pDest, char _val, size_t _size )
 		{
 			char* pDest = reinterpret_cast< char* >( _pDest );
 			const char* const pEnd = pDest + _size;
