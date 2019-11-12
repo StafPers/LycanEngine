@@ -13,7 +13,7 @@ namespace Lycan
 		{
 		public:
 
-			using IndexList = DynamicArray< size_t >;
+			using IndexList  = DynamicArray< size_t >;
 			using StringList = DynamicArray< String >;
 
 			String                 ( void );
@@ -23,6 +23,9 @@ namespace Lycan
 
 			template< typename... Args >
 			String                 ( const char* _str, Args... _args )
+				: m_length   { 0 }
+				, m_capactiy { 0 }
+				, m_pBuffer  { nullptr }
 			{
 				m_length = snprintf( nullptr, 0, _str, _args... ) + 1;
 				Reserve( m_length );
@@ -82,7 +85,6 @@ namespace Lycan
 			size_t m_length;
 			size_t m_capactiy;
 			char*  m_pBuffer;
-
 		};
 	}
 }

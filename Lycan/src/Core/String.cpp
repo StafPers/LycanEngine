@@ -19,7 +19,7 @@ namespace Lycan
 		}
 
 		String::String( const char* _pStr )
-			: m_length   { strlen( _pStr ) }
+			: m_length   { strlen( _pStr ) + 1 }
 			, m_capactiy { 0 }
 			, m_pBuffer  { nullptr }
 		{
@@ -293,16 +293,16 @@ namespace Lycan
 			if( ++_capacity <= m_capactiy )
 				return;
 
-			m_capactiy = NextPowerOfTwo( _capacity );
+			m_capactiy  = NextPowerOfTwo( _capacity );
 			char* pTemp = new char[ m_capactiy ];
 
 			MemorySet( pTemp, 0, m_capactiy );
 
-			for( size_t i = 0; i < m_length; ++i )
-				pTemp[ i ] = m_pBuffer[ i ];
-
 			delete m_pBuffer;
 			m_pBuffer = pTemp;
+
+			for( size_t i = 0; i < m_length; ++i )
+				pTemp[ i ] = m_pBuffer[ i ];
 		}
 
 		const char* String::CString( void ) const
