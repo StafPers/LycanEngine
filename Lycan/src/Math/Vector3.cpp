@@ -43,17 +43,6 @@ namespace Lycan
 			return ( _b - _a ).Magnitude();
 		}
 
-		Vector3 Vector3::InterpolateLinear( const Vector3& _start, const Vector3& _end, float _fraction )
-		{
-			return _start + ( ( _end - _start ) * _fraction );
-		}
-
-		Vector3 Vector3::InterpolateCosine( const Vector3& _start, const Vector3& _end, float _fraction )
-		{
-			const float cos_fraction = ( 1.0f - cosf( static_cast< float >( Math::PI ) * _fraction ) ) * 0.5f;
-			return InterpolateLinear( _start, _end, cos_fraction );
-		}
-
 		Vector3 Vector3::CrossProduct( const Vector3& _a, const Vector3& _b )
 		{
 			return Vector3(

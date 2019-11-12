@@ -32,23 +32,12 @@ namespace Lycan
 
 		float Vector2::DeltaAngleDeg( const Vector2& _a, const Vector2& _b )
 		{
-			return acosf( DeltaAngleRad( _a, _b ) );
+			return Math::RadToDeg( DeltaAngleRad( _a, _b ) );
 		}
 
 		float Vector2::Distance( const Vector2& _a, const Vector2& _b )
 		{
 			return ( _b - _a ).Magnitude();
-		}
-
-		Vector2 Vector2::InterpolateLinear( const Vector2& _start, const Vector2& _end, float _fraction )
-		{
-			return _start + ( ( _end - _start ) * _fraction );
-		}
-
-		Vector2 Vector2::InterpolateCosine( const Vector2& _start, const Vector2& _end, float _fraction )
-		{
-			const float cosFraction = ( 1.0f - cosf( static_cast< float >( Math::PI ) * _fraction ) ) * 0.5f;
-			return InterpolateLinear( _start, _end, cosFraction );
 		}
 
 		Vector2 Vector2::Perpendicular( const Vector2& _v )

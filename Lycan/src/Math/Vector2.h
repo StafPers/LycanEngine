@@ -18,8 +18,6 @@ namespace Lycan
 			static float   DeltaAngleRad    ( const Vector2& _a, const Vector2& _b );
 			static float   DeltaAngleDeg    ( const Vector2& _a, const Vector2& _b );
 			static float   Distance         ( const Vector2& _a, const Vector2& _b );
-			static Vector2 InterpolateLinear( const Vector2& _start, const Vector2& _end, float _fraction );
-			static Vector2 InterpolateCosine( const Vector2& _start, const Vector2& _end, float _fraction );
 			static Vector2 Perpendicular    ( const Vector2& _v );
 
 			float          Magnitude        ( void )                const;

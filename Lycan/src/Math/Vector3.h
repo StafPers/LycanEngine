@@ -1,10 +1,12 @@
 #pragma once
 
+#include "../Core/Core.h"
+
 namespace Lycan
 {
 	namespace Math
 	{
-		class Vector3
+		class LYCAN_API Vector3
 		{
 		public:
 			Vector3                         ( void );
@@ -16,8 +18,6 @@ namespace Lycan
 			static float   DeltaAngleRad    ( const Vector3& _a, const Vector3& _b );
 			static float   DeltaAngleDeg    ( const Vector3& _a, const Vector3& _b );
 			static float   Distance         ( const Vector3& _a, const Vector3& _b );
-			static Vector3 InterpolateLinear( const Vector3& _start, const Vector3& _end, float _fraction );
-			static Vector3 InterpolateCosine( const Vector3& _start, const Vector3& _end, float _fraction );
 			static Vector3 CrossProduct     ( const Vector3& _a, const Vector3& _b );
 
 			float          Magnitude        ( void )                const;
