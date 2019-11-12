@@ -1,21 +1,31 @@
-#include <Lycan.h>
+#include <Core/DynamicArray.h>
+#include <Core/String.h>
+#include <Core/Clock.h>
+#include <Core/LoopTimer.h>
+#include <Core/Log.h>
+#include "Sandbox.h"
 
-class Sandbox : public Lycan::Application
+using namespace Lycan::Core;
+
+Sandbox::Sandbox()
 {
-public:
+}
 
-	Sandbox( void )
-	{
-
-	}
-
-	~Sandbox( void )
-	{
-
-	}
-};
-
-Lycan::Application* Lycan::CreateApplication( void )
+Sandbox::~Sandbox()
 {
-	return new Sandbox();
+}
+
+void Sandbox::Initialize()
+{
+}
+
+void Sandbox::Update()
+{
+	LogError( String( "Hej error\n" ) );
+	LogWarning( String( "Hej varning\n" ) );
+	LogMessage( String( "Delta tid %f\n", Clock::Instance().DeltaTime() ) );
+}
+
+void Sandbox::Render()
+{
 }
