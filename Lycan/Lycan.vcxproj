@@ -13,11 +13,14 @@
   <ItemGroup>
     <ClInclude Include="src\Core\Algorithm.h" />
     <ClInclude Include="src\Core\Application.h" />
+    <ClInclude Include="src\Core\Clock.h" />
     <ClInclude Include="src\Core\ConsoleColors.h" />
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\DynamicArray.h" />
     <ClInclude Include="src\Core\EntryPoint.h" />
     <ClInclude Include="src\Core\Log.h" />
+    <ClInclude Include="src\Core\LoopTimer.h" />
+    <ClInclude Include="src\Core\LycanWin.h" />
     <ClInclude Include="src\Core\Memory.h" />
     <ClInclude Include="src\Core\Queue.h" />
     <ClInclude Include="src\Core\String.h" />
@@ -29,7 +32,8 @@
     <ClInclude Include="src\Math\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Core\Clock.cpp" />
+    <ClCompile Include="src\Core\LoopTimer.cpp" />
     <ClCompile Include="src\Core\String.cpp" />
     <ClCompile Include="src\Math\Vector2.cpp" />
     <ClCompile Include="src\Math\Vector3.cpp" />
