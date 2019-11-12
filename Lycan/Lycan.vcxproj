@@ -32,7 +32,9 @@
     <ClInclude Include="src\Math\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Algorithm.cpp" />
     <ClCompile Include="src\Core\Clock.cpp" />
+    <ClCompile Include="src\Core\Log.cpp" />
     <ClCompile Include="src\Core\LoopTimer.cpp" />
     <ClCompile Include="src\Core\String.cpp" />
     <ClCompile Include="src\Math\Vector2.cpp" />

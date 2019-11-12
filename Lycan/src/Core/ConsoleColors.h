@@ -4,7 +4,6 @@
 
 #include "Core.h"
 
-
 namespace Lycan
 {
 	namespace Core
