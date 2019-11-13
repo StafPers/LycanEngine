@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core.h"
-#include "Util.h"
+#include "../Core/Core.h"
+#include "../Core/Util.h"
 
 namespace Lycan
 {
@@ -12,7 +12,7 @@ namespace Lycan
 		{
 		public:
 
-			UniquePtr()
+			UniquePtr( void )
 				: m_pObj( nullptr )
 			{}
 
@@ -31,7 +31,7 @@ namespace Lycan
 				delete m_pObj;
 			}
 
-			UniquePtr( const UniquePtr< T >& ) = delete;
+			UniquePtr( const UniquePtr< T >& )                 = delete;
 			UniquePtr< T >& operator=( const UniquePtr< T >& ) = delete;
 
 			UniquePtr< T >& operator=( UniquePtr< T >&& _rSource )

@@ -35,11 +35,10 @@ namespace Lycan
 		void Clock::Update( void )
 		{
 			const float counterDiff = static_cast< float >( PerformanceCounter() - m_mark );
-			m_mark = PerformanceCounter();
-			const float freq = static_cast< float >( PerformanceFrequency() );
-
-			m_deltaTime = counterDiff / freq;
-			m_lifeTime += m_deltaTime;
+			m_mark                  = PerformanceCounter();
+			const float freq        = static_cast< float >( PerformanceFrequency() );
+			m_deltaTime             = counterDiff / freq;
+			m_lifeTime             += m_deltaTime;
 		}
 	}
 }
