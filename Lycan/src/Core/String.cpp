@@ -1,7 +1,7 @@
 #include "String.h"
 
 #include "Algorithm.h"
-#include "Memory.h"
+#include "../Memory/Memory.h"
 #include "Util.h"
 
 #include <string.h>
@@ -35,7 +35,7 @@ namespace Lycan
 			, m_pBuffer  { nullptr }
 		{
 			Reserve( m_length );
-			MemorySet( m_pBuffer, _c, _count );
+			Memory::MemorySet( m_pBuffer, _c, _count );
 		}
 
 		String::String( size_t _capactiy )
@@ -296,7 +296,7 @@ namespace Lycan
 			m_capactiy  = NextPowerOfTwo( _capacity );
 			char* pTemp = new char[ m_capactiy ];
 
-			MemorySet( pTemp, 0, m_capactiy );
+			Memory::MemorySet( pTemp, 0, m_capactiy );
 
 			delete m_pBuffer;
 			m_pBuffer = pTemp;

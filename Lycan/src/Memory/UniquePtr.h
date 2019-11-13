@@ -5,7 +5,7 @@
 
 namespace Lycan
 {
-	namespace Core
+	namespace Memory
 	{
 		template< class T >
 		class UniquePtr

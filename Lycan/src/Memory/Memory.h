@@ -4,7 +4,7 @@
 
 namespace Lycan
 {
-	namespace Core
+	namespace Memory
 	{
 		void MemoryCopy( void* _pDest, void* _pSrc, size_t _size )
 		{

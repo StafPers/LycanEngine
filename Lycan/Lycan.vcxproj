@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -21,10 +21,11 @@
     <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Core\LoopTimer.h" />
     <ClInclude Include="src\Core\LycanWin.h" />
-    <ClInclude Include="src\Core\Memory.h" />
+    <ClInclude Include="src\Memory\Memory.h" />
     <ClInclude Include="src\Core\Queue.h" />
+    <ClInclude Include="src\Memory\SharedPtr.h" />
     <ClInclude Include="src\Core\String.h" />
-    <ClInclude Include="src\Core\UniquePtr.h" />
+    <ClInclude Include="src\Memory\UniquePtr.h" />
     <ClInclude Include="src\Core\Util.h" />
     <ClInclude Include="src\Lycan.h" />
     <ClInclude Include="src\Math\Math.h" />
