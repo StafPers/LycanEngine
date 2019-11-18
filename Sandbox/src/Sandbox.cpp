@@ -21,7 +21,7 @@ void Sandbox::Initialize()
 
 void Sandbox::Update()
 {
-	LogError( String( "Hej error\n" ) );
+	LogError( WString( L"Håj error\n" ) );
 	LogWarning( String( "Hej varning\n" ) );
 	LogMessage( String( "Delta tid %f\n", Clock::Instance().DeltaTime() ) );
 }
