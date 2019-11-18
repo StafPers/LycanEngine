@@ -59,6 +59,12 @@ namespace Lycan
 				return pTemp;
 			}
 
+			void Reset( T* _pObj = nullptr )
+			{
+				delete m_pObj;
+				m_pObj = _pObj;
+			}
+
 		private:
 
 			T* m_pObj;
