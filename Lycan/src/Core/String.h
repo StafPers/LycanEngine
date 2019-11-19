@@ -63,7 +63,7 @@ namespace Lycan
 				, m_capactiy { 0 }
 				, m_pBuffer  { nullptr }
 			{
-				Format( _str, _args... );
+				Format( _str, Forward< Args >( _args )... );
 			}
 
 			GenericString( const GenericString< T >& _rSource )
