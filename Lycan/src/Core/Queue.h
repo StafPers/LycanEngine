@@ -18,6 +18,8 @@ namespace Lycan
 			{}
 
 			Queue( const Queue< T >& _rOther )
+				: m_pFront { nullptr }
+				, m_pBack  { nullptr }
 			{
 				Copy( _rOther );
 			}
@@ -35,6 +37,16 @@ namespace Lycan
 				FreeMemory();
 				Copy( _rOther );
 				return *this;
+			}
+
+			bool operator==( const Queue< T >& _rOther )
+			{
+				return m_pFront == _rOther.m_pFront;
+			}
+
+			bool operator!=( const Queue< T >& _rOther )
+			{
+				return !( *this == _rOther );
 			}
 
 			void Add( const T& _obj )
@@ -59,7 +71,7 @@ namespace Lycan
 				}
 
 				sNode* pNext = m_pFront->pNext;
-				T&& obj      = Move( m_pFront->obj );
+				T obj = m_pFront->obj;
 
 				delete m_pFront;
 				m_pFront = pNext;
@@ -151,7 +163,7 @@ namespace Lycan
 					return;
 				}
 
-				sNode* pCurrent = _rOther.m_pFirst;
+				sNode* pCurrent = _rOther.m_pFront;
 
 				while( pCurrent != nullptr )
 				{
