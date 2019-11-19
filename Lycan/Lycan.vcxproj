@@ -38,6 +38,7 @@
     <ClCompile Include="src\Core\Log.cpp" />
     <ClCompile Include="src\Core\LoopTimer.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
+    <ClCompile Include="src\Math\Math.cpp" />
     <ClCompile Include="src\Math\Vector2.cpp" />
     <ClCompile Include="src\Math\Vector3.cpp" />
     <ClCompile Include="src\Memory\Memory.cpp" />
