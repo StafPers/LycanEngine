@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Core/Core.h"
+
 #include <math.h>
 
 namespace Lycan
@@ -57,5 +59,14 @@ namespace Lycan
 		{
 			return ( ( _val < _min ) ? _min : ( ( _val > _max ) ? _max : _val ) );
 		}
+
+		double LYCAN_API Pow  ( int _base, int _exp );
+		float  LYCAN_API Round( float _val );
+		double LYCAN_API Round( double _val );
+		float  LYCAN_API Floor( float _val );
+		double LYCAN_API Floor( double _val );
+		float  LYCAN_API Ceil ( float _val );
+		double LYCAN_API Ceil ( double _val );
+
 	}
 }
