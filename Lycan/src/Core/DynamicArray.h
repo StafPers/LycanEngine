@@ -3,6 +3,7 @@
 #include "Algorithm.h"
 #include "Core.h"
 
+#include <initializer_list>
 #include <new>
 
 namespace Lycan
@@ -15,15 +16,16 @@ namespace Lycan
 		public:
 
 			DynamicArray( void )
-				: DynamicArray{ 8 }
+				: m_numElements { 0 }
+				, m_capacity    { NextPowerOfTwo( 5 ) }
+				, m_pBuffer{ new char[ m_capacity * sizeof( T ) ] }
 			{}
 
 			DynamicArray( size_t _capacity )
 				: m_numElements { 0 }
 				, m_capacity    { NextPowerOfTwo( _capacity ) }
 				, m_pBuffer     { new char[ m_capacity * sizeof( T ) ] }
-			{
-			}
+			{}
 
 			DynamicArray( size_t _numElements, T _value )
 				: m_numElements { _numElements }
@@ -34,13 +36,14 @@ namespace Lycan
 					new( reinterpret_cast< T* >( m_pBuffer ) + i ) T( _value );
 			}
 
-			template< typename... Args >
-			DynamicArray( Args&&... args )
-				: m_numElements { 0 }
-				, m_capacity    { NextPowerOfTwo( 8 ) }
+			DynamicArray( const std::initializer_list< T >& _rList )
+				: m_numElements { _rList.size() }
+				, m_capacity    { NextPowerOfTwo( m_numElements ) }
 				, m_pBuffer     { new char[ m_capacity * sizeof( T ) ] }
 			{
-				PushBack( Forward< Args >( args )... );
+				size_t index = 0;
+				for( const T& obj : _rList )
+					new( reinterpret_cast< T* >( m_pBuffer ) + index++ ) T( obj );
 			}
 
 			DynamicArray( const DynamicArray& _rSource )
