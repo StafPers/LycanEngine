@@ -63,7 +63,9 @@ namespace Lycan
 				, m_capactiy { 0 }
 				, m_pBuffer  { nullptr }
 			{
-				Format( _str, Forward< Args >( _args )... );
+				m_length = StrFormat( nullptr, 0, _str, Forward< Args >( _args )... ) + 1;
+				Reserve( m_length );
+				StrFormat( m_pBuffer, m_length, _str, Forward< Args >( _args )... );
 			}
 
 			GenericString( const GenericString< T >& _rSource )
@@ -522,29 +524,6 @@ namespace Lycan
 			}
 
 		private:
-
-			template< typename... Args >
-			void Format( const char* _str, Args&&... _args )
-			{
-				m_length = snprintf( nullptr, 0, _str, _args... ) + 1;
-				Reserve( m_length );
-				snprintf( m_pBuffer, m_length, _str, _args... );
-			}
-
-			template< typename... Args >
-			void Format( const wchar_t* _str, Args&&... _args )
-			{
-				m_length =  _snwprintf( nullptr, 0, _str, _args... ) + 1;
-				Reserve( m_length );
-				_snwprintf( m_pBuffer, m_length, _str, _args... );
-			}
-
-			size_t Strlen( const T* _str )
-			{
-				size_t count = 0;
-				for( size_t i = 0; _str[ i ] != 0; ++i, ++count );
-				return count;
-			}
 
 			size_t m_length;
 			size_t m_capactiy;
