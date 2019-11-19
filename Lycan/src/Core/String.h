@@ -34,7 +34,7 @@ namespace Lycan
 				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
-				Reserve( m_length + 1 );
+				Reserve( m_length );
 
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _pStr[ i ];
@@ -78,11 +78,16 @@ namespace Lycan
 			}
 
 			GenericString( GenericString< T >&& _rSource )
-				: m_length{ 0 }
-				, m_capacity{ 0 }
-				, m_pBuffer{ nullptr }
+				: m_length   { _rSource.m_length }
 			{
-				Swap( *this, _rSource );
+				Reserve( m_length );
+
+				for( size_t i = 0; i < m_length; ++i )
+					m_pBuffer[ i ] = _rSource[ i ];
+
+				_rSource.m_length   = 0;
+				_rSource.m_capacity = 0;
+				_rSource.m_pBuffer  = nullptr;
 			}
 
 			~GenericString( void )
@@ -108,11 +113,16 @@ namespace Lycan
 
 			GenericString& operator=( GenericString< T >&& _rSource )
 			{
-				m_length   = 0;
-				m_capacity = 0;
-				delete m_pBuffer;
-				m_pBuffer  = nullptr;
-				Swap( *this, _rSource );
+				m_length   = _rSource.m_length;
+				
+				Reserve( m_length );
+				
+				for( size_t i = 0; i < m_length; ++i )
+					m_pBuffer[ i ] = _rSource[ i ];
+
+				_rSource.m_length   = 0;
+				_rSource.m_capacity = 0;
+				_rSource.m_pBuffer  = nullptr;
 
 				return *this;
 			}

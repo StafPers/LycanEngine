@@ -61,8 +61,8 @@ namespace Lycan
 				, m_pBuffer     { _rSource.m_pBuffer }
 			{
 				_rSource.m_numElements = 0;
-				_rSource.m_capacity = 0;
-				_rSource.m_pBuffer = nullptr;
+				_rSource.m_capacity    = 0;
+				_rSource.m_pBuffer     = nullptr;
 			}
 
 			~DynamicArray()
