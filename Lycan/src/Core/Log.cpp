@@ -15,7 +15,7 @@ void Lycan::Core::LogError( const String& _error )
 		currentAttrib = csbi.wAttributes;
 
 	SetConsoleTextAttribute( hConsole, eConsoleColors::LightRed );
-	printf( _error.CString() );
+	puts( _error.CString() );
 	SetConsoleTextAttribute( hConsole, currentAttrib );
 }
 
@@ -29,13 +29,13 @@ void Lycan::Core::LogWarning( const String& _warning )
 		currentAttrib = csbi.wAttributes;
 
 	SetConsoleTextAttribute( hConsole, eConsoleColors::LightYellow );
-	printf( _warning.CString() );
+	puts( _warning.CString() );
 	SetConsoleTextAttribute( hConsole, currentAttrib );
 }
 
 void Lycan::Core::LogMessage( const String& _message )
 {
-	printf( _message.CString() );
+	puts( _message.CString() );
 }
 
 void Lycan::Core::LogMessage( const String& _message, eConsoleColors _color )
@@ -48,7 +48,7 @@ void Lycan::Core::LogMessage( const String& _message, eConsoleColors _color )
 		currentAttrib = csbi.wAttributes;
 
 	SetConsoleTextAttribute( hConsole, _color );
-	printf( _message.CString() );
+	puts( _message.CString() );
 	SetConsoleTextAttribute( hConsole, currentAttrib );
 }
 
@@ -62,7 +62,7 @@ void LYCAN_API Lycan::Core::LogError( const WString& _error )
 		currentAttrib = csbi.wAttributes;
 
 	SetConsoleTextAttribute( hConsole, eConsoleColors::LightRed );
-	wprintf( _error.CString() );
+	_putws( _error.CString() );
 	SetConsoleTextAttribute( hConsole, currentAttrib );
 }
 
@@ -76,13 +76,13 @@ void LYCAN_API Lycan::Core::LogWarning( const WString& _warning )
 		currentAttrib = csbi.wAttributes;
 
 	SetConsoleTextAttribute( hConsole, eConsoleColors::LightYellow );
-	wprintf( _warning.CString() );
+	_putws( _warning.CString() );
 	SetConsoleTextAttribute( hConsole, currentAttrib );
 }
 
 void LYCAN_API Lycan::Core::LogMessage( const WString& _message )
 {
-	wprintf( _message.CString() );
+	_putws( _message.CString() );
 }
 
 void LYCAN_API Lycan::Core::LogMessage( const WString& _message, eConsoleColors _color )
@@ -95,6 +95,6 @@ void LYCAN_API Lycan::Core::LogMessage( const WString& _message, eConsoleColors 
 		currentAttrib = csbi.wAttributes;
 
 	SetConsoleTextAttribute( hConsole, _color );
-	wprintf( _message.CString() );
+	_putws( _message.CString() );
 	SetConsoleTextAttribute( hConsole, currentAttrib );
 }
