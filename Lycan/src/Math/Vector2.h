@@ -34,8 +34,6 @@ namespace Lycan
 			Vector2        operator -       ( float _rhs )          const;
 			Vector2&       operator -=      ( float _rhs );
 
-			Vector2        operator *       ( const Vector2& _rhs ) const;
-			Vector2&       operator *=      ( const Vector2& _rhs );
 			Vector2        operator *       ( float _rhs )          const;
 			Vector2&       operator *=      ( float _rhs );
 

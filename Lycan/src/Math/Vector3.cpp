@@ -113,16 +113,6 @@ namespace Lycan
 			return *this = *this - _rhs;
 		}
 
-		Vector3 Vector3::operator*( const Vector3& _rhs ) const
-		{
-			return Vector3( x * _rhs.x, y * _rhs.y, z * _rhs.z );
-		}
-
-		Vector3& Vector3::operator*=( const Vector3& _rhs )
-		{
-			return *this = *this * _rhs;
-		}
-
 		Vector3 Vector3::operator*( float _rhs ) const
 		{
 			return Vector3( x * _rhs, y * _rhs, z * _rhs );
