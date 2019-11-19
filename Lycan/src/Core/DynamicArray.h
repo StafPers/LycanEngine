@@ -40,7 +40,7 @@ namespace Lycan
 				, m_capacity    { NextPowerOfTwo( 8 ) }
 				, m_pBuffer     { new char[ m_capacity * sizeof( T ) ] }
 			{
-				PushBack( args... );
+				PushBack( Forward< Args >( args )... );
 			}
 
 			DynamicArray( const DynamicArray& _rSource )
@@ -158,7 +158,7 @@ namespace Lycan
 			void PushBack( const First& first, Args&&... args )
 			{
 				PushBack( first );
-				PushBack( args... );
+				PushBack( Forward< Args >( args )... );
 			}
 
 			void PushBack( const T& _rValue )
@@ -237,7 +237,7 @@ namespace Lycan
 			{
 				Reserve( m_numElements + 1 );
 
-				new( reinterpret_cast< T* >( m_pBuffer ) + m_numElements++ ) T( args... );
+				new( reinterpret_cast< T* >( m_pBuffer ) + m_numElements++ ) T( Forward< Args >( args )... );
 			}
 
 			void Insert( const T& _rValue, size_t _index )
@@ -302,6 +302,18 @@ namespace Lycan
 				}
 			}
 
+			void RemoveLastOf( const T& _rValue )
+			{
+				for( size_t i = m_numElements; i > 0; --i )
+				{
+					if( reinterpret_cast< T* >( m_pBuffer )[ i - 1 ] == _rValue )
+					{
+						RemoveAt( i - 1 );
+						return;
+					}
+				}
+			}
+
 			void RemoveAllOf( const T& _rValue )
 			{
 				size_t uNumRemovedObjects = 0;
@@ -332,6 +344,17 @@ namespace Lycan
 
 				return m_numElements;
 			}
+			
+			size_t FindLastOf( const T& _rValue ) const
+			{
+				for( size_t i = m_numElements; i > 0; --i )
+				{
+					if( reinterpret_cast< T* >( m_pBuffer )[ i - 1 ] == _rValue )
+						return i - 1;
+				}
+
+				return m_numElements;
+			}
 
 			DynamicArray< size_t > FindAllOf( const T& _rValue ) const
 			{
@@ -352,6 +375,17 @@ namespace Lycan
 				{
 					if( Predicate( reinterpret_cast< T* >( m_pBuffer )[ i ] ) )
 						return i;
+				}
+
+				return m_numElements;
+			}
+
+			size_t FindLastIf( bool( *Predicate )( const T& ) ) const
+			{
+				for( size_t i = m_numElements; i > 0; --i )
+				{
+					if( Predicate( reinterpret_cast< T* >( m_pBuffer )[ i - 1 ] ) )
+						return i - 1;
 				}
 
 				return m_numElements;
