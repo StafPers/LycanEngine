@@ -23,18 +23,18 @@ namespace Lycan
 
 			GenericString( void )
 				: m_length   { 0 }
-				, m_capactiy { 0 }
+				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
 				Reserve( 5 );
 			}
 
 			GenericString( const T* _pStr )
-				: m_length   { Strlen( _pStr ) + 1 }
-				, m_capactiy { 0 }
+				: m_length   { Strlen( _pStr ) }
+				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
-				Reserve( m_length );
+				Reserve( m_length + 1 );
 
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _pStr[ i ];
@@ -42,7 +42,7 @@ namespace Lycan
 
 			GenericString( T _c, size_t _count )
 				: m_length   { _count }
-				, m_capactiy { 0 }
+				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
 				Reserve( m_length );
@@ -51,16 +51,16 @@ namespace Lycan
 
 			GenericString( size_t _capactiy )
 				: m_length   { 0 }
-				, m_capactiy { _capactiy }
+				, m_capacity { _capactiy }
 				, m_pBuffer  { nullptr }
 			{
-				Reserve( m_capactiy );
+				Reserve( m_capacity );
 			}
 
 			template< typename... Args >
 			GenericString( const T* _str, Args&&... _args )
 				: m_length   { 0 }
-				, m_capactiy { 0 }
+				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
 				m_length = StrFormat( nullptr, 0, _str, Forward< Args >( _args )... ) + 1;
@@ -69,19 +69,17 @@ namespace Lycan
 			}
 
 			GenericString( const GenericString< T >& _rSource )
+				: m_length   { _rSource.m_length }
+				, m_capacity { _rSource.m_capacity }
+				, m_pBuffer  { new T[ m_capacity ]}
 			{
-				m_length   = _rSource.m_length;
-				m_capactiy = _rSource.m_capactiy;
-				delete m_pBuffer;
-				m_pBuffer = new T[ m_capactiy ];
-
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _rSource[ i ];
 			}
 
 			GenericString( GenericString< T >&& _rSource )
 				: m_length{ 0 }
-				, m_capactiy{ 0 }
+				, m_capacity{ 0 }
 				, m_pBuffer{ nullptr }
 			{
 				Swap( *this, _rSource );
@@ -98,9 +96,9 @@ namespace Lycan
 					return *this;
 
 				m_length   = _rSource.m_length;
-				m_capactiy = _rSource.m_capactiy;
+				m_capacity = _rSource.m_capacity;
 				delete m_pBuffer;
-				m_pBuffer = new T[ m_capactiy ];
+				m_pBuffer = new T[ m_capacity ];
 
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _rSource[ i ];
@@ -111,7 +109,7 @@ namespace Lycan
 			GenericString& operator=( GenericString< T >&& _rSource )
 			{
 				m_length   = 0;
-				m_capactiy = 0;
+				m_capacity = 0;
 				delete m_pBuffer;
 				m_pBuffer  = nullptr;
 				Swap( *this, _rSource );
@@ -313,13 +311,13 @@ namespace Lycan
 
 			void Reserve( size_t _capacity )
 			{
-				if( ++_capacity <= m_capactiy )
+				if( ++_capacity <= m_capacity )
 					return;
 
-				m_capactiy  = NextPowerOfTwo( _capacity );
-				T* pTemp = new T[ m_capactiy ];
+				m_capacity  = NextPowerOfTwo( _capacity );
+				T* pTemp = new T[ m_capacity ];
 
-				Memory::MemorySet( pTemp, ( T )0, m_capactiy );
+				Memory::MemorySet( pTemp, ( T )0, m_capacity );
 
 				delete m_pBuffer;
 				m_pBuffer = pTemp;
@@ -420,10 +418,15 @@ namespace Lycan
 
 			int ToInt( void ) const
 			{
+				if( IsEmpty() )
+				{
+					// TODO: throw exception
+				}
+
 				int sign = 1;
 				int offset = 0;
 
-				if( m_pBuffer[ 0 ] == '-' )
+				if( m_pBuffer[ 0 ] == T( '-' ) )
 				{
 					sign = -1;
 					offset = 1;
@@ -431,7 +434,7 @@ namespace Lycan
 
 				for( size_t i = offset; i < m_length; ++i )
 				{
-					if( m_pBuffer[ i ] < '0' || m_pBuffer[ i ] > '9' )
+					if( m_pBuffer[ i ] < T( '0' ) || m_pBuffer[ i ] > T( '9' ) )
 					{
 						// TODO throw format exception
 					}
@@ -441,16 +444,62 @@ namespace Lycan
 				int sum = 0;
 
 				for( size_t i = m_length; i > offset; --i, pos *= 10 )
-					sum += m_pBuffer[ i - 1 ] - '0' * pos;
+					sum += ( ( m_pBuffer[ i - 1 ] - T( '0' ) ) * pos );
 
 				return sum * sign;
 			}
 
 			float ToFloat( void ) const
 			{
-				// TODO: implement
+				if( IsEmpty() )
+				{
+					// TODO: Throw exception
+				}
 
-				return 0.0f;
+				float sign = 1.0f;
+				int offset = 0;
+
+				if( m_pBuffer[ 0 ] == T( '-' ) )
+				{
+					sign = -1.0f;
+					offset = 1;
+				}
+
+				int decimalIndex = 0;
+				for( size_t i = offset; i < m_length && m_pBuffer[ i ] != T( '.' ); ++i )
+				{
+					if( m_pBuffer[ i ] < T( '0' ) || m_pBuffer[ i ] > T( '9' ) )
+					{
+						// TODO throw format exception
+					}
+
+					++decimalIndex;
+				}
+
+				for( size_t i = decimalIndex + 1; i < m_length; ++i )
+				{
+					if( m_pBuffer[ i ] < T( '0' ) || m_pBuffer[ i ] > T( '9' ) )
+					{
+						// TODO throw format exception
+					}
+				}
+
+				float integerPart = 0.0f;
+
+				for( size_t i = decimalIndex, pos = 1; i > offset; --i, pos *= 10 )
+					integerPart += static_cast< float >( ( ( m_pBuffer[ i - 1 ] - T( '0' ) ) * pos ) );
+
+				integerPart *= sign;
+
+				if( decimalIndex == m_length )
+					return integerPart;
+
+				float fractionalPart   = 0.0f;
+				float fractionModifier = 1.0f;
+				for( size_t i = m_length, pos = 1; i > ( decimalIndex + 1 ); --i, pos *= 10, fractionModifier *= 0.1f )
+					fractionalPart += static_cast< float >( ( ( m_pBuffer[ i - 1 ] - T( '0' ) ) * pos ) );
+
+				return integerPart + ( fractionalPart * fractionModifier );
 			}
 
 			size_t Count( T _c ) const
@@ -523,10 +572,38 @@ namespace Lycan
 				return str;
 			}
 
+			inline T& Back( void )
+			{
+				// TODO: Throw exception if empty
+				return m_pBuffer[ m_length - 1 ];
+			}
+
+			inline const T& Back( void ) const
+			{
+				// TODO: Throw exception if empty
+				return m_pBuffer[ m_length - 1 ];
+			}
+
+			inline T& Front( void )
+			{
+				// TODO: Throw exception empty
+				return m_pBuffer[ 0 ];
+			}
+
+			inline const T& Front( void ) const
+			{
+				// TODO: Throw exception if empty
+				return m_pBuffer[ 0 ];
+			}
+
+			inline size_t Size    ( void ) const { return m_length; }
+			inline size_t Capacity( void ) const { return m_capacity; }
+			inline bool   IsEmpty ( void ) const { return m_length == 0; }
+
 		private:
 
 			size_t m_length;
-			size_t m_capactiy;
+			size_t m_capacity;
 			T*     m_pBuffer;
 		};
 
