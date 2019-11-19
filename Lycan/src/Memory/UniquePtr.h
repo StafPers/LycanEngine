@@ -46,9 +46,11 @@ namespace Lycan
 				return *this;
 			}
 
-			T* operator->         ( void )       { return m_pObj; }
-			T& operator*          ( void )       { return *m_pObj; }
-			explicit operator bool( void ) const { return m_pObj != nullptr; }
+			T* operator->         ( void )           { return m_pObj; }
+			T& operator*          ( void )           { return *m_pObj; }
+			bool operator==       ( T* _pObj ) const { return m_pObj == _pObj; }
+			bool operator!=       ( T* _pObj ) const { return !( *this == _pObj ); }
+			explicit operator bool( void )     const { return m_pObj != nullptr; }
 
 			inline T* Get         ( void )       { return m_pObj; }
 
@@ -74,7 +76,7 @@ namespace Lycan
 		template< typename T, typename... Args >
 		UniquePtr< T > MakeUnique( Args&&... args )
 		{
-			return UniquePtr< T >( new T( Forward( args... ) ) );
+			return UniquePtr< T >( new T( Core::Forward< Args >( args )... ) );
 		}
 	}
 }
