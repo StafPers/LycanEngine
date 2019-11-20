@@ -63,24 +63,28 @@ namespace Lycan
 				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
-				m_length = StrFormat( nullptr, 0, _str, Forward< Args >( _args )... ) + 1;
-				Reserve( m_length );
-				StrFormat( m_pBuffer, m_length, _str, Forward< Args >( _args )... );
+				m_length = StrFormat( nullptr, 0, _str, Forward< Args >( _args )... );
+				Reserve( m_length + 1);
+				StrFormat( m_pBuffer, m_length + 1, _str, Forward< Args >( _args )... );
 			}
 
 			GenericString( const GenericString< T >& _rSource )
 				: m_length   { _rSource.m_length }
-				, m_capacity { _rSource.m_capacity }
-				, m_pBuffer  { new T[ m_capacity ]}
+				, m_capacity { 0 }
+				, m_pBuffer  { nullptr }
 			{
+				Reserve( m_length + 1 );
+
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _rSource[ i ];
 			}
 
 			GenericString( GenericString< T >&& _rSource )
 				: m_length   { _rSource.m_length }
+				, m_capacity { 0 }
+				, m_pBuffer  { nullptr }
 			{
-				Reserve( m_length );
+				Reserve( m_length + 1 );
 
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _rSource[ i ];
