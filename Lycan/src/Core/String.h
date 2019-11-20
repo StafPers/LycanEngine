@@ -64,7 +64,7 @@ namespace Lycan
 				, m_pBuffer  { nullptr }
 			{
 				m_length = StrFormat( nullptr, 0, _str, Forward< Args >( _args )... );
-				Reserve( m_length + 1);
+				Reserve( m_length );
 				StrFormat( m_pBuffer, m_length + 1, _str, Forward< Args >( _args )... );
 			}
 
@@ -73,7 +73,7 @@ namespace Lycan
 				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
-				Reserve( m_length + 1 );
+				Reserve( m_length );
 
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _rSource[ i ];
@@ -84,7 +84,7 @@ namespace Lycan
 				, m_capacity { 0 }
 				, m_pBuffer  { nullptr }
 			{
-				Reserve( m_length + 1 );
+				Reserve( m_length );
 
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _rSource[ i ];
@@ -105,9 +105,9 @@ namespace Lycan
 					return *this;
 
 				m_length   = _rSource.m_length;
-				m_capacity = _rSource.m_capacity;
-				delete m_pBuffer;
-				m_pBuffer = new T[ m_capacity ];
+				m_capacity = m_length + 1;
+				
+				Reserve( m_capacity );
 
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _rSource[ i ];
@@ -117,8 +117,8 @@ namespace Lycan
 
 			GenericString& operator=( GenericString< T >&& _rSource )
 			{
+				m_capacity = 0;
 				m_length   = _rSource.m_length;
-				
 				Reserve( m_length );
 				
 				for( size_t i = 0; i < m_length; ++i )
@@ -200,7 +200,7 @@ namespace Lycan
 					// TODO: throw exception
 				}
 
-				Reserve( m_length + 1 );
+				Reserve( m_length );
 
 				for( size_t i = m_length; i > _index; --i )
 					m_pBuffer[ i ] = m_pBuffer[ i - 1 ];
@@ -241,7 +241,7 @@ namespace Lycan
 
 			void PushBack( T _c )
 			{
-				Reserve( m_length + 1 );
+				Reserve( m_length );
 				m_pBuffer[ m_length++ ] = _c;
 			}
 
