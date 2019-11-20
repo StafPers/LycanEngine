@@ -222,7 +222,7 @@ namespace Lycan
 				for( size_t i = m_length; i > _index; --i )
 					m_pBuffer[ i + _str.m_length - 1 ] = m_pBuffer[ i - 1 ];
 
-				for( size_t i = _index; i < _index + _str.m_length - 1; ++i )
+				for( size_t i = _index; i < _index + _str.m_length; ++i )
 					m_pBuffer[ i ] = _str[ i - _index ];
 
 				return *this;
