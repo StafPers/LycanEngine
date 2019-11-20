@@ -248,6 +248,7 @@ namespace Lycan
 			void PopBack( void )
 			{
 				--m_length;
+				m_pBuffer[ m_length ] = 0;
 			}
 
 			GenericString< T >& Replace( size_t _index, const GenericString< T >& _str )
