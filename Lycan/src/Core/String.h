@@ -236,6 +236,8 @@ namespace Lycan
 				for( size_t i = 0; i < m_length; ++i )
 					m_pBuffer[ i ] = _str[ i ];
 
+				m_pBuffer[ m_length ] = 0;
+
 				return *this;
 			}
 
@@ -390,12 +392,12 @@ namespace Lycan
 
 			size_t FindLast( const GenericString< T >& _str ) const
 			{
-				for( size_t i = m_length - _str.m_length; i > 0 && i > _str.m_length; i -= _str.m_length )
+				for( size_t i = m_length - _str.m_length + 1; i > 0 && i > _str.m_length; i -= _str.m_length )
 				{
 					bool bFound = true;
 					for( size_t j = i - 1; j < i + _str.m_length - 1; ++j )
 					{
-						if( m_pBuffer[ j ] != _str[ j - i ] )
+						if( m_pBuffer[ j ] != _str[ 1 + j - i ] )
 						{
 							bFound = false;
 							break;
@@ -403,7 +405,7 @@ namespace Lycan
 					}
 
 					if( bFound )
-						return i;
+						return i - 1;
 				}
 
 				return m_length;
@@ -424,7 +426,7 @@ namespace Lycan
 			{
 				IndexList indices;
 
-				// TODO: implement
+				// TODO: Implement
 
 				return indices;
 			}
@@ -580,7 +582,7 @@ namespace Lycan
 				T* pEnd   = m_pBuffer + m_length - 1;
 
 				while( pStart < pEnd )
-					Swap( *pStart++, *pEnd++ );
+					Swap( *pStart++, *pEnd-- );
 			}
 
 			GenericString< T > Reversed( void ) const
