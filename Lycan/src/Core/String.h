@@ -99,7 +99,7 @@ namespace Lycan
 				delete[] m_pBuffer;
 			}
 
-			GenericString& operator=( const GenericString< T >& _rSource )
+			GenericString< T >& operator=( const GenericString< T >& _rSource )
 			{
 				if( &_rSource == this )
 					return *this;
@@ -115,7 +115,7 @@ namespace Lycan
 				return *this;
 			}
 
-			GenericString& operator=( GenericString< T >&& _rSource )
+			GenericString< T >& operator=( GenericString< T >&& _rSource )
 			{
 				m_capacity = 0;
 				m_length   = _rSource.m_length;
@@ -131,15 +131,15 @@ namespace Lycan
 				return *this;
 			}
 
-			GenericString operator+( const GenericString< T >& _rhs ) const
+			GenericString< T > operator+( const GenericString< T >& _rhs ) const
 			{
 				GenericString< T > str = *this;
 				return str.Append( _rhs );
 			}
 
-			GenericString& operator+=( const GenericString< T >& _rhs )
+			GenericString< T >& operator+=( const GenericString< T >& _rhs )
 			{
-				return *this = *this + _rhs;
+				return Append( _rhs );
 			}
 
 			const T& operator[]( size_t _index ) const
@@ -333,11 +333,15 @@ namespace Lycan
 
 				Memory::MemorySet( pTemp, ( T )0, m_capacity );
 
+				if( m_pBuffer )
+				{
+					for( size_t i = 0; i < m_length; ++i )
+						pTemp[ i ] = m_pBuffer[ i ];
+				}
+				
 				delete m_pBuffer;
 				m_pBuffer = pTemp;
 
-				for( size_t i = 0; i < m_length; ++i )
-					pTemp[ i ] = m_pBuffer[ i ];
 			}
 
 			const T* CString ( void ) const
