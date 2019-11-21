@@ -48,7 +48,7 @@ namespace Lycan
 
 			DynamicArray( const DynamicArray& _rSource )
 				: m_numElements { _rSource.m_numElements }
-				, m_capacity    { _rSource.m_numElements }
+				, m_capacity    { NextPowerOfTwo( _rSource.m_numElements ) }
 				, m_pBuffer     { new char[ _rSource.m_numElements * sizeof( T ) ] }
 			{
 				for( size_t i = 0; i < m_numElements; ++i )
@@ -80,8 +80,8 @@ namespace Lycan
 					delete[] m_pBuffer;
 
 					m_numElements = _rSource.m_numElements;
-					m_capacity = _rSource.m_capacity;
-					m_pBuffer = new char[ m_numElements * sizeof( T ) ];
+					m_capacity    = _rSource.m_capacity;
+					m_pBuffer     = new char[ m_numElements * sizeof( T ) ];
 
 					for( size_t i = 0; i < m_numElements; ++i )
 						new( reinterpret_cast< T* >( m_pBuffer ) + i ) T( _rSource[ i ] );
@@ -97,12 +97,12 @@ namespace Lycan
 					delete[] m_pBuffer;
 
 					m_numElements = _rSource.m_numElements;
-					m_capacity = _rSource.m_capacity;
-					m_pBuffer = _rSource.m_pBuffer;
+					m_capacity    = _rSource.m_capacity;
+					m_pBuffer     = _rSource.m_pBuffer;
 
 					_rSource.m_numElements = 0;
-					_rSource.m_capacity = 0;
-					_rSource.m_pBuffer = nullptr;
+					_rSource.m_capacity    = 0;
+					_rSource.m_pBuffer     = nullptr;
 				}
 
 				return *this;
@@ -187,9 +187,6 @@ namespace Lycan
 				{
 					// TODO: throw exception if trying to pop empty array
 				}
-
-				if( IsEmpty() )
-					return;
 
 				reinterpret_cast< T* >( m_pBuffer )[ m_numElements-- - 1 ].~T();
 			}

@@ -298,7 +298,7 @@ namespace Lycan
 
 					for( size_t i = 0; i < indices.Size(); ++i )
 					{
-						for( size_t j = indices[ i ] + _replacement.m_length; j < m_length - 1; ++j )
+						for( size_t j = indices[ i ] + _replacement.m_length - i; j < m_length - 1; ++j )
 							m_pBuffer[ j ] = m_pBuffer[ j + 1 ];
 
 						for( size_t j = 0; j < _replacement.m_length; ++j )
@@ -426,7 +426,21 @@ namespace Lycan
 			{
 				IndexList indices;
 
-				// TODO: Implement
+				for( size_t i = 0; i < m_length - _str.m_length; ++i )
+				{
+					bool bFound = true;
+					for( size_t j = i; j < i + _str.m_length; ++j )
+					{
+						if( m_pBuffer[ j ] != _str[ j - i ] )
+						{
+							bFound = false;
+							break;
+						}
+					}
+
+					if( bFound )
+						indices.PushBack( i );
+				}
 
 				return indices;
 			}

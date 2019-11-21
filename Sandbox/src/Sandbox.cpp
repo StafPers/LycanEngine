@@ -4,8 +4,12 @@
 #include <Core/LoopTimer.h>
 #include <Core/Log.h>
 #include "Sandbox.h"
+#include <Memory/UniquePtr.h>
+#include <Math/Math.h>
 
 using namespace Lycan::Core;
+using namespace Lycan::Memory;
+using namespace Lycan;
 
 Sandbox::Sandbox()
 {
@@ -19,11 +23,18 @@ void Sandbox::Initialize()
 {
 }
 
+struct data
+{
+	int i = 0;
+};
+
 void Sandbox::Update()
 {
-	LogError( WString( L"Håj error\n" ) );
-	LogWarning( String( "Hej varning\n" ) );
-	LogMessage( String( "Delta tid %f\n", Clock::Instance().DeltaTime() ) );
+	String str( "hej" );
+
+
+	LogMessage( str.Reversed() );
+
 }
 
 void Sandbox::Render()
